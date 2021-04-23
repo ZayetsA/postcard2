@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Postcard</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_input_name_hint">enter name here</string>
+    <string name="main_input_title_hint">enter title here</string>
+    <string name="main_input_text_tint">enter text here</string>
+    <string name="main_input_name_desc">Name</string>
+    <string name="main_input_name_text_desc">Title</string>
+    <string name="main_button_test_text">Test</string>
+    <string name="Main_button_launch_text">Launch</string>
+    <string name="ItemDescriptionText">TextView</string>
+    <string name="item_title_text">TextView</string>
+    <string name="card_title_text">Title</string>
+    <string name="card_from_text">From</string>
+    <string name="card_text_text">text texte</string>
+    <string name="card_name_text">Name</string>
+    <string name="main_fragment_input_text_desc">Text</string>
+</resources>
