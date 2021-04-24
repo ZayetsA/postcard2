@@ -27,7 +27,16 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField "String", "BG_STRING", "\"bg\""
+            buildConfigField "String", "FOO_STRING", "\"figures\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "FOO_STRING", "\"figures\""
+            buildConfigField "String", "BG_STRING", "\"backgrounds\""
         }
     }
     compileOptions {

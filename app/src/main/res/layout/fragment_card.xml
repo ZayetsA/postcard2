@@ -13,6 +13,7 @@
 
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:id="@+id/cardContainer"
+        setBackgroundImage="@{viewModel.model.backgroundImage}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/fragment_card_xml_cardcontainer_scene"
@@ -84,6 +85,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cardContainerImage"
             android:layout_width="wrap_content"
+            setImageFromAssets="@{viewModel.model.imageName}"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/cardContainerName"
             app:layout_constraintStart_toStartOf="parent"

@@ -5,11 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import com.example.postcard2.SingleLiveEvent
+import com.example.postcard2.commons.Uroboros
+import com.example.postcard2.sources.imagesource.implementation.AssetsImageSource
 
-class InputViewModel : ViewModel() {
+class InputViewModel(imageSource: AssetsImageSource, assetsImageSource: AssetsImageSource) :
+    ViewModel() {
     private val _navigationLiveEvent = SingleLiveEvent<NavDirections>()
     val navigationLiveEvent: LiveData<NavDirections> = _navigationLiveEvent
     val model = InputModel()
+
+    private val iterator = Uroboros(imageSource.list(), imageSource.list().first())
+    private val bgIterator = Uroboros(assetsImageSource.list(), assetsImageSource.list().first())
 
     private val _errorName = MutableLiveData<Boolean>()
     val errorName: LiveData<Boolean> = _errorName
@@ -19,6 +25,11 @@ class InputViewModel : ViewModel() {
 
     private val _errorText = MutableLiveData<Boolean>()
     val errorText: LiveData<Boolean> = _errorText
+
+    init {
+        model.imageName = iterator.get()
+        model.backgroundImage = bgIterator.get()
+    }
 
     fun showCardFragment() {
         model.apply {
@@ -30,5 +41,17 @@ class InputViewModel : ViewModel() {
                     InputFragmentDirections.actionInputFragmentToCardFragment(model)
             }
         }
+    }
+
+    fun getNextBackground() {
+        model.imageName = iterator.next().get()
+    }
+
+    fun getPreviousBackground() {
+        model.imageName = iterator.previous().get()
+    }
+
+    fun nextBackground() {
+        model.backgroundImage = bgIterator.next().get()
     }
 }

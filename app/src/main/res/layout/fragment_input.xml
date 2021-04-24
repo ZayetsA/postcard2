@@ -13,8 +13,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/inputCardContainer"
+        setBackgroundImage="@{viewModel.model.backgroundImage}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:onClick="@{() -> viewModel.nextBackground()}"
         tools:context=".input.InputFragment">
 
         <TextView
@@ -156,6 +158,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/parentFragmentButtonTest"
             app:layout_constraintWidth_percent="0.4" />
+
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/parentFragmentButtonPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_40"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> viewModel.getPreviousBackground()}"
+            android:src="@drawable/left_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/parentFragmentImageSwitcher"
+            app:layout_constraintEnd_toStartOf="@+id/parentFragmentImageSwitcher" />
+
+
+        <ImageView
+            android:id="@+id/parentFragmentImageSwitcher"
+            setImageFromAssets="@{viewModel.model.imageName}"
+            android:layout_width="@dimen/card_width"
+            android:layout_height="@dimen/card_height"
+            android:layout_marginTop="@dimen/margin_10"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/parentFragmentButtonLaunch"
+            tools:src="@mipmap/ic_launcher" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/parentFragmentButtonNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_40"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> viewModel.getNextBackground()}"
+            android:src="@drawable/right_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/parentFragmentImageSwitcher"
+            app:layout_constraintStart_toEndOf="@+id/parentFragmentImageSwitcher" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

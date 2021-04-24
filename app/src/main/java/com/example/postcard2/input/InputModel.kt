@@ -11,6 +11,8 @@ class InputModel(
     private var _name: String = "",
     private var _title: String = "",
     private var _text: String = "",
+    private var _imageName: String = "",
+    private var _backgroundImage: String = ""
 ) : BaseObservable(), Parcelable {
 
     @get:Bindable
@@ -35,6 +37,23 @@ class InputModel(
             _text = value
             field = value
             notifyPropertyChanged(BR.text)
+        }
+
+
+    @get:Bindable
+    var imageName: String = _imageName
+        set(value) {
+            _imageName = value
+            field = value
+            notifyPropertyChanged(BR.imageName)
+        }
+
+    @get:Bindable
+    var backgroundImage: String = _backgroundImage
+        set(value) {
+            _backgroundImage = value
+            field = value
+            notifyPropertyChanged(BR.backgroundImage)
         }
 
     fun isError() = _name.isEmpty() || _title.isEmpty() || _text.isEmpty()
