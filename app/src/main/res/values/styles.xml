@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="settingTextInputLayoutStyle">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="hintEnabled">false</item>
+    </style>
 
-    <style name="TextInputEditText">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textCursorDrawable">@null</item>
-        <item name="android:paddingLeft">5dp</item>
+    <style name="settingEditTextStyle">
+        <item name="android:background">@drawable/ancient_edittext_bg</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">@dimen/text_12</item>
+
     </style>
 </resources>

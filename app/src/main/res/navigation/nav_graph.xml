@@ -18,5 +18,9 @@
         android:id="@+id/cardFragment"
         android:name="com.example.postcard2.card.CardFragment"
         android:label="fragment_card"
-        tools:layout="@layout/fragment_card" />
+        tools:layout="@layout/fragment_card">
+        <argument
+            android:name="inputModel"
+            app:argType="com.example.postcard2.input.InputModel" />
+    </fragment>
 </navigation>

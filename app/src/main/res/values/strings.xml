@@ -15,4 +15,5 @@
     <string name="card_text_text">text texte</string>
     <string name="card_name_text">Name</string>
     <string name="main_fragment_input_text_desc">Text</string>
+    <string name="empty_field_text_error">Field can not be empty!</string>
 </resources>

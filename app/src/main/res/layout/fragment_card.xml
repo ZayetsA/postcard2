@@ -11,21 +11,104 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/stubContainer"
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/cardContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".stub.StubFragment">
+        app:layoutDescription="@xml/fragment_card_xml_cardcontainer_scene"
+        tools:context=".card.CardFragment">
 
-        <TextView
-            android:id="@+id/stubAppName"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cardContainerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:fontFamily="sans-serif-black"
+            android:text="@{viewModel.model.title}"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_72"
+            app:layout_constraintBottom_toTopOf="@id/cardContainerFrom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cardContainerAvatar"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/default_profile_image"
+            app:layout_constraintBottom_toTopOf="@id/cardContainerText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardContainerFrom"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cardContainerFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/card_from_text"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_36"
+            app:layout_constraintBottom_toTopOf="@id/cardContainerAvatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardContainerTitle"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cardContainerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="@{viewModel.model.text}"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_28"
+            app:layout_constraintBottom_toTopOf="@id/cardContainerImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/cardContainerAvatar"
+            app:layout_constraintWidth_percent="0.7"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/cardContainerImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/cardContainerName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardContainerText"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cardContainerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="@{viewModel.model.name}"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_72"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardContainerImage"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
 </layout>
