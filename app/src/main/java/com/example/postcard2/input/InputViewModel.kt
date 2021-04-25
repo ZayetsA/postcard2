@@ -1,5 +1,8 @@
 package com.example.postcard2.input
 
+import android.annotation.SuppressLint
+import android.content.Context
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,8 +10,14 @@ import androidx.navigation.NavDirections
 import com.example.postcard2.SingleLiveEvent
 import com.example.postcard2.commons.Uroboros
 import com.example.postcard2.sources.imagesource.implementation.AssetsImageSource
+import com.google.gson.Gson
 
-class InputViewModel(imageSource: AssetsImageSource, assetsImageSource: AssetsImageSource) :
+
+class InputViewModel(
+    imageSource: AssetsImageSource,
+    assetsImageSource: AssetsImageSource,
+    activity: FragmentActivity?
+) :
     ViewModel() {
     private val _navigationLiveEvent = SingleLiveEvent<NavDirections>()
     val navigationLiveEvent: LiveData<NavDirections> = _navigationLiveEvent
@@ -16,6 +25,9 @@ class InputViewModel(imageSource: AssetsImageSource, assetsImageSource: AssetsIm
 
     private val iterator = Uroboros(imageSource.list(), imageSource.list().first())
     private val bgIterator = Uroboros(assetsImageSource.list(), assetsImageSource.list().first())
+
+    @SuppressLint("StaticFieldLeak")
+    private val currentActivity = activity
 
     private val _errorName = MutableLiveData<Boolean>()
     val errorName: LiveData<Boolean> = _errorName
@@ -40,6 +52,34 @@ class InputViewModel(imageSource: AssetsImageSource, assetsImageSource: AssetsIm
                 _navigationLiveEvent.value =
                     InputFragmentDirections.actionInputFragmentToCardFragment(model)
             }
+        }
+    }
+
+    fun launchCard() {
+        val preferences = currentActivity?.getPreferences(Context.MODE_PRIVATE)
+        model.apply {
+            _errorName.value = name.isEmpty()
+            _errorTitle.value = title.isEmpty()
+            _errorText.value = text.isEmpty()
+            if (!isError()) {
+                val editor = preferences?.edit()
+                val gson = Gson()
+                val json = gson.toJson(model)
+                editor?.putString("Card", json)
+                editor?.apply()
+                currentActivity?.finish()
+            }
+        }
+    }
+
+    fun checkArgs() {
+        val preferences = currentActivity?.getPreferences(Context.MODE_PRIVATE)
+        if (preferences?.getString("Card", "") != "") {
+            val gson = Gson()
+            val json: String? = preferences?.getString("Card", "")
+            val model: InputModel = gson.fromJson(json, InputModel::class.java)
+            _navigationLiveEvent.value =
+                InputFragmentDirections.actionInputFragmentToCardFragment(model)
         }
     }
 

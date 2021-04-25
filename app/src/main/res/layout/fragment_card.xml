@@ -37,9 +37,9 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/cardContainerAvatar"
+            setProfileImage="@{viewModel.model.profileImage}"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/default_profile_image"
             app:layout_constraintBottom_toTopOf="@id/cardContainerText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardContainerFrom"
@@ -84,8 +84,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cardContainerImage"
-            android:layout_width="wrap_content"
             setImageFromAssets="@{viewModel.model.imageName}"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/cardContainerName"
             app:layout_constraintStart_toStartOf="parent"

@@ -117,6 +117,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/parentFragmentProfileImage"
+            setProfileImage="@{viewModel.model.profileImage}"
             android:layout_width="@dimen/card_profile_image_width"
             android:layout_height="@dimen/card_profile_image_height"
             android:layout_marginTop="@dimen/margin_15"
@@ -148,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10"
             android:background="@drawable/solid_button_bg"
-            android:onClick="@{() -> viewModel.showCardFragment()}"
+            android:onClick="@{() -> viewModel.launchCard()}"
             android:stateListAnimator="@drawable/zoom_button_animation"
             android:text="@string/Main_button_launch_text"
             android:textAllCaps="false"
