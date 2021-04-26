@@ -1,13 +1,12 @@
 package com.example.postcard2.input
 
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +14,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.example.postcard2.BuildConfig
 import com.example.postcard2.databinding.FragmentInputBinding
+import com.example.postcard2.presets.PresetsAdapter
 import com.example.postcard2.sources.imagesource.implementation.AssetsImageSource
+import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.IOException
 
@@ -28,6 +32,8 @@ class InputFragment : Fragment() {
         private const val IMAGE_CODE = 100
     }
 
+    private lateinit var adapter: PresetsAdapter
+    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var binding: FragmentInputBinding
     private val viewModel: InputViewModel by viewModels {
         InputViewModelFactory(
@@ -49,11 +55,17 @@ class InputFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-
+        binding.parentFragmentThemeNext.setOnClickListener {
+            setNextPreset()
+        }
+        binding.parentFragmentThemePrevious.setOnClickListener {
+            setPreviousPreset()
+        }
         viewModel.navigationLiveEvent.observe(viewLifecycleOwner, ::navigate)
         binding.parentFragmentProfileImage.setOnClickListener {
             getImageFromGallery()
         }
+        createPresetsView()
         viewModel.checkArgs()
     }
 
@@ -79,7 +91,7 @@ class InputFragment : Fragment() {
                     uploadedBitmap, uploadedBitmap.width / 20, uploadedBitmap.height / 20, true
                 )
                 binding.parentFragmentProfileImage.setImageBitmap(bitmap)
-                viewModel.model.profileImage = bitmap
+                viewModel.model.profileImage = bitMapToString(bitmap)
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             } catch (e: IOException) {
@@ -88,16 +100,51 @@ class InputFragment : Fragment() {
         }
     }
 
-    private fun navigate(directions: NavDirections) {
-        findNavController().navigate(directions)
+    private fun bitMapToString(bitmap: Bitmap): String {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        val b = baos.toByteArray()
+        return Base64.encodeToString(b, Base64.DEFAULT)
     }
 
+    private fun createPresetsView() {
+        viewModel.addDefaultThemes()
+        adapter = PresetsAdapter(viewModel.listOfThemes) {
+            binding.inputCardInputTitle.setText(it.title)
+            binding.inputCardInputText.setText(it.text)
+            viewModel.model.backgroundImage = it.imageId.toString()
+            binding.inputCardContainer.setBackgroundResource(it.imageId)
+        }
+        with(binding) {
+            parentFragmentCards.adapter = adapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            val snapHelper: SnapHelper = PagerSnapHelper()
+            parentFragmentCards.layoutManager = layoutManager
+            snapHelper.attachToRecyclerView(parentFragmentCards)
+        }
+    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        val preferences: SharedPreferences? = context?.getSharedPreferences("Card", Context.MODE_PRIVATE)
-        val editor = preferences?.edit()
-        editor?.clear()
-        editor?.apply()
+    private fun setPreviousPreset() {
+        try {
+            binding.parentFragmentCards.layoutManager?.smoothScrollToPosition(
+                binding.parentFragmentCards,
+                null,
+                layoutManager.findFirstVisibleItemPosition() - 1
+            )
+        } catch (e: IllegalArgumentException) {
+        }
+
+    }
+
+    private fun setNextPreset() {
+        binding.parentFragmentCards.layoutManager?.smoothScrollToPosition(
+            binding.parentFragmentCards,
+            null,
+            layoutManager.findLastVisibleItemPosition() + 1
+        )
+    }
+
+    private fun navigate(directions: NavDirections) {
+        findNavController().navigate(directions)
     }
 }

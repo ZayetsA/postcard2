@@ -7,7 +7,7 @@
     <dimen name="text_24">24sp</dimen>
     <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_15">15dp</dimen>
-    <dimen name="item_height">250dp</dimen>
+    <dimen name="item_height">180dp</dimen>
     <dimen name="margin_60">60dp</dimen>
     <dimen name="text_72">72sp</dimen>
     <dimen name="image_width">150dp</dimen>

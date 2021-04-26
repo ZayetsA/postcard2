@@ -1,7 +1,8 @@
 package com.example.postcard2.adapter
 
-import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.util.Base64
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
@@ -29,20 +30,37 @@ fun ImageView.setImageFromAssets(imageName: String) {
 
 @BindingAdapter("setBackgroundImage")
 fun ConstraintLayout.setBackgroundImage(imageName: String) {
-    background = (
-            Drawable.createFromStream(
-                resources.assets.open("${BuildConfig.BG_STRING}/$imageName"),
-                null
-            )
-            )
+    if (isInteger(imageName)) {
+        setBackgroundResource(imageName.toInt())
+    } else {
+        background = (
+                Drawable.createFromStream(
+                    resources.assets.open("${BuildConfig.BG_STRING}/$imageName"),
+                    null
+                )
+                )
+    }
 }
 
 @BindingAdapter("setProfileImage")
-fun CircleImageView.setProfileImage(imageName: Bitmap?) {
-    if (imageName == null) {
+fun CircleImageView.setProfileImage(imageName: String) {
+    if (imageName == "") {
         setImageResource(R.drawable.default_profile_image)
     } else {
-        setImageBitmap(imageName)
+        val imageBytes = Base64.decode(imageName, 0)
+        val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        setImageBitmap(image)
 
     }
+}
+
+fun isInteger(s: String): Boolean {
+    try {
+        s.toInt()
+    } catch (e: NumberFormatException) {
+        return false
+    } catch (e: NullPointerException) {
+        return false
+    }
+    return true
 }

@@ -1,8 +1,6 @@
 package com.example.postcard2.card
 
 import android.animation.ObjectAnimator
-import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -55,13 +53,5 @@ class CardFragment : Fragment() {
         animator.duration = 1000
         animator.repeatMode = ObjectAnimator.REVERSE
         animator.start()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        val preferences: SharedPreferences? = context?.getSharedPreferences("Card", Context.MODE_PRIVATE)
-        val editor = preferences?.edit()
-        editor?.clear()
-        editor?.apply()
     }
 }

@@ -9,8 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import com.example.postcard2.SingleLiveEvent
 import com.example.postcard2.commons.Uroboros
+import com.example.postcard2.presets.PresetModel
 import com.example.postcard2.sources.imagesource.implementation.AssetsImageSource
 import com.google.gson.Gson
+import java.util.*
 
 
 class InputViewModel(
@@ -19,6 +21,7 @@ class InputViewModel(
     activity: FragmentActivity?
 ) :
     ViewModel() {
+    var listOfThemes = ArrayList<PresetModel>()
     private val _navigationLiveEvent = SingleLiveEvent<NavDirections>()
     val navigationLiveEvent: LiveData<NavDirections> = _navigationLiveEvent
     val model = InputModel()
@@ -93,5 +96,22 @@ class InputViewModel(
 
     fun nextBackground() {
         model.backgroundImage = bgIterator.next().get()
+    }
+
+    private fun addTheme(title: String, text: String, drawable: Int) {
+        listOfThemes.add(
+            PresetModel(title, text, drawable)
+        )
+    }
+
+    fun addDefaultThemes() {
+        addTheme("Happy lines", "Nice background", com.example.postcard2.R.drawable.background_1)
+        addTheme("Poehali!", "Space background", com.example.postcard2.R.drawable.background_2)
+        addTheme(
+            "Some space",
+            "Another space background",
+            com.example.postcard2.R.drawable.background_3
+        )
+        addTheme("Lava lamp", "Lava background", com.example.postcard2.R.drawable.background_4)
     }
 }

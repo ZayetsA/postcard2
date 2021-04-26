@@ -1,6 +1,5 @@
 package com.example.postcard2.input
 
-import android.graphics.Bitmap
 import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
@@ -14,7 +13,7 @@ class InputModel(
     private var _text: String = "",
     private var _imageName: String = "",
     private var _backgroundImage: String = "",
-    private var _profileImage: Bitmap? = null
+    private var _profileImage: String = ""
 ) : BaseObservable(), Parcelable {
 
     @get:Bindable
@@ -59,7 +58,7 @@ class InputModel(
         }
 
     @get:Bindable
-    var profileImage: Bitmap? = _profileImage
+    var profileImage: String = _profileImage
         set(value) {
             _profileImage = value
             field = value
