@@ -1,14 +1,13 @@
 package com.example.postcard2.input
 
-import android.annotation.SuppressLint
-import android.content.Context
-import androidx.fragment.app.FragmentActivity
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import com.example.postcard2.SingleLiveEvent
 import com.example.postcard2.commons.Uroboros
+import com.example.postcard2.events.Event
 import com.example.postcard2.presets.PresetModel
 import com.example.postcard2.sources.imagesource.implementation.AssetsImageSource
 import com.google.gson.Gson
@@ -18,7 +17,7 @@ import java.util.*
 class InputViewModel(
     imageSource: AssetsImageSource,
     assetsImageSource: AssetsImageSource,
-    activity: FragmentActivity?
+    private val preferences: SharedPreferences?,
 ) :
     ViewModel() {
     var listOfThemes = ArrayList<PresetModel>()
@@ -29,9 +28,6 @@ class InputViewModel(
     private val iterator = Uroboros(imageSource.list(), imageSource.list().first())
     private val bgIterator = Uroboros(assetsImageSource.list(), assetsImageSource.list().first())
 
-    @SuppressLint("StaticFieldLeak")
-    private val currentActivity = activity
-
     private val _errorName = MutableLiveData<Boolean>()
     val errorName: LiveData<Boolean> = _errorName
 
@@ -40,6 +36,9 @@ class InputViewModel(
 
     private val _errorText = MutableLiveData<Boolean>()
     val errorText: LiveData<Boolean> = _errorText
+
+    private val _shouldCloseLiveData = MutableLiveData<Event<Boolean>>()
+    val shouldCloseLiveData: LiveData<Event<Boolean>> = _shouldCloseLiveData
 
     init {
         model.imageName = iterator.get()
@@ -59,7 +58,6 @@ class InputViewModel(
     }
 
     fun launchCard() {
-        val preferences = currentActivity?.getPreferences(Context.MODE_PRIVATE)
         model.apply {
             _errorName.value = name.isEmpty()
             _errorTitle.value = title.isEmpty()
@@ -70,13 +68,12 @@ class InputViewModel(
                 val json = gson.toJson(model)
                 editor?.putString("Card", json)
                 editor?.apply()
-                currentActivity?.finish()
+                closeAppAction()
             }
         }
     }
 
     fun checkArgs() {
-        val preferences = currentActivity?.getPreferences(Context.MODE_PRIVATE)
         if (preferences?.getString("Card", "") != "") {
             val gson = Gson()
             val json: String? = preferences?.getString("Card", "")
@@ -102,6 +99,10 @@ class InputViewModel(
         listOfThemes.add(
             PresetModel(title, text, drawable)
         )
+    }
+
+    fun closeAppAction(){
+        _shouldCloseLiveData.postValue(Event(true))
     }
 
     fun addDefaultThemes() {

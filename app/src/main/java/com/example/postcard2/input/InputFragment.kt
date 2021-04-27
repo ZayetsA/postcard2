@@ -1,15 +1,21 @@
 package com.example.postcard2.input
 
-import android.app.Activity.RESULT_OK
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
+import android.graphics.ImageDecoder
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
@@ -28,10 +34,7 @@ import java.io.IOException
 
 class InputFragment : Fragment() {
 
-    companion object {
-        private const val IMAGE_CODE = 100
-    }
-
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var adapter: PresetsAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var binding: FragmentInputBinding
@@ -39,7 +42,7 @@ class InputFragment : Fragment() {
         InputViewModelFactory(
             AssetsImageSource(requireContext(), BuildConfig.FOO_STRING),
             AssetsImageSource(requireContext(), BuildConfig.BG_STRING),
-            activity
+            activity?.getPreferences(Context.MODE_PRIVATE)
         )
     }
 
@@ -48,13 +51,23 @@ class InputFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInputBinding.inflate(inflater)
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val data: Intent? = result.data
+                    getResult(data)
+                }
+            }
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+        viewModel.shouldCloseLiveData.observe(viewLifecycleOwner, { activity?.finish() })
         binding.parentFragmentThemeNext.setOnClickListener {
             setNextPreset()
         }
@@ -65,38 +78,52 @@ class InputFragment : Fragment() {
         binding.parentFragmentProfileImage.setOnClickListener {
             getImageFromGallery()
         }
+        binding.inputCardInputText.setOnKeyListener { currentView, keyCode, _ ->
+            handleKeyEvent(currentView, keyCode)
+        }
+
         createPresetsView()
         viewModel.checkArgs()
     }
 
     private fun getImageFromGallery() {
-        startActivityForResult(
-            Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.INTERNAL_CONTENT_URI
-            ), IMAGE_CODE
-        )
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        resultLauncher.launch(intent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == IMAGE_CODE && resultCode == RESULT_OK) {
-            val selectedImage: Uri? = data?.data
-            val bitmap: Bitmap?
-            try {
-                val uploadedBitmap =
-                    MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedImage)
-                bitmap = Bitmap.createScaledBitmap(
-                    uploadedBitmap, uploadedBitmap.width / 20, uploadedBitmap.height / 20, true
-                )
-                binding.parentFragmentProfileImage.setImageBitmap(bitmap)
-                viewModel.model.profileImage = bitMapToString(bitmap)
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
+    private fun getResult(data: Intent?) {
+        val bitmap: Bitmap?
+        try {
+            val uploadedBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val src: ImageDecoder.Source? =
+                    activity?.contentResolver?.let {
+                        data?.data?.let { it1 ->
+                            ImageDecoder.createSource(
+                                it,
+                                it1
+                            )
+                        }
+                    }
+                src?.let { ImageDecoder.decodeBitmap(it) }
+            } else {
+                @Suppress("DEPRECATION")
+                MediaStore.Images.Media.getBitmap(activity?.contentResolver, data?.data)
             }
+
+            bitmap = uploadedBitmap?.let {
+                Bitmap.createScaledBitmap(
+                    it,
+                    (uploadedBitmap.width * (0.05)).toInt(),
+                    (uploadedBitmap.height * (0.05)).toInt(),
+                    true
+                )
+            }
+            binding.parentFragmentProfileImage.setImageBitmap(bitmap)
+            viewModel.model.profileImage = bitmap?.let { bitMapToString(it) }.toString()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 
@@ -142,6 +169,16 @@ class InputFragment : Fragment() {
             null,
             layoutManager.findLastVisibleItemPosition() + 1
         )
+    }
+
+    private fun handleKeyEvent(view: View, keyCode: Int): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            val inputMethodManager =
+                activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+            return true
+        }
+        return false
     }
 
     private fun navigate(directions: NavDirections) {

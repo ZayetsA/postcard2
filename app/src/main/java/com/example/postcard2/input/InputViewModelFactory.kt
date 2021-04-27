@@ -1,6 +1,6 @@
 package com.example.postcard2.input
 
-import androidx.fragment.app.FragmentActivity
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.postcard2.sources.imagesource.implementation.AssetsImageSource
@@ -8,11 +8,11 @@ import com.example.postcard2.sources.imagesource.implementation.AssetsImageSourc
 class InputViewModelFactory(
     private val imageSource: AssetsImageSource,
     private val assetsImageSource: AssetsImageSource,
-    private val activity: FragmentActivity?
+    private val preferences: SharedPreferences?
 ):ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(InputViewModel::class.java)) {
-            return InputViewModel(imageSource, assetsImageSource, activity) as T
+            return InputViewModel(imageSource, assetsImageSource, preferences) as T
         }
         throw IllegalArgumentException("Unknown member class")
     }
