@@ -95,24 +95,24 @@ class InputViewModel(
         model.backgroundImage = bgIterator.next().get()
     }
 
-    private fun addTheme(title: String, text: String, drawable: Int) {
+    private fun addDefaultTheme(title: String, text: String, drawable: Int) {
         listOfThemes.add(
             PresetModel(title, text, drawable)
         )
     }
 
-    fun closeAppAction(){
+    private fun closeAppAction(){
         _shouldCloseLiveData.postValue(Event(true))
     }
 
     fun addDefaultThemes() {
-        addTheme("Happy lines", "Nice background", com.example.postcard2.R.drawable.background_1)
-        addTheme("Poehali!", "Space background", com.example.postcard2.R.drawable.background_2)
-        addTheme(
+        addDefaultTheme("Happy lines", "Nice background", com.example.postcard2.R.drawable.background_1)
+        addDefaultTheme("Poehali!", "Space background", com.example.postcard2.R.drawable.background_2)
+        addDefaultTheme(
             "Some space",
             "Another space background",
             com.example.postcard2.R.drawable.background_3
         )
-        addTheme("Lava lamp", "Lava background", com.example.postcard2.R.drawable.background_4)
+        addDefaultTheme("Lava lamp", "Lava background", com.example.postcard2.R.drawable.background_4)
     }
 }

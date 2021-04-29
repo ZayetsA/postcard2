@@ -11,225 +11,230 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/inputCardContainer"
-        setBackgroundImage="@{viewModel.model.backgroundImage}"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="@{() -> viewModel.nextBackground()}"
-        tools:context=".input.InputFragment">
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/inputCardNameDesc"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/inputCardContainer"
+            setBackgroundImage="@{viewModel.model.backgroundImage}"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_15"
-            android:text="@string/main_input_name_desc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:onClick="@{() -> viewModel.nextBackground()}"
+            tools:context=".input.InputFragment">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputCardInputNameContainer"
-            style="@style/settingTextInputLayoutStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:errorMessage="@{viewModel.errorName}"
-            app:layout_constraintBottom_toTopOf="@id/inputCardTitleDesc"
-            app:layout_constraintStart_toStartOf="@+id/inputCardNameDesc"
-            app:layout_constraintTop_toBottomOf="@id/inputCardNameDesc"
-            app:layout_constraintWidth_percent="0.5">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputCardInputName"
-                style="@style/settingEditTextStyle"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/inputCardNameDesc"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/main_input_name_hint"
-                android:maxLength="15"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="@={viewModel.model.name}"
-                android:textCursorDrawable="@null" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_margin="@dimen/margin_15"
+                android:text="@string/main_input_name_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/inputCardTitleDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_15"
-            android:text="@string/inputCardTitleDesc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputCardInputNameContainer" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputCardInputTitleContainer"
-            style="@style/settingTextInputLayoutStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:errorMessage="@{viewModel.errorTitle}"
-            app:layout_constraintStart_toStartOf="@+id/inputCardTitleDesc"
-            app:layout_constraintTop_toBottomOf="@+id/inputCardTitleDesc"
-            app:layout_constraintWidth_percent="0.5">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputCardInputTitle"
-                style="@style/settingEditTextStyle"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputCardInputNameContainer"
+                style="@style/settingTextInputLayoutStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/main_input_title_hint"
-                android:maxLength="15"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="@={viewModel.model.title}"
-                android:textCursorDrawable="@null" />
+                app:errorMessage="@{viewModel.errorName}"
+                app:layout_constraintBottom_toTopOf="@id/inputCardTitleDesc"
+                app:layout_constraintStart_toStartOf="@+id/inputCardNameDesc"
+                app:layout_constraintTop_toBottomOf="@id/inputCardNameDesc"
+                app:layout_constraintWidth_percent="0.5">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputCardInputName"
+                    style="@style/settingEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/main_input_name_hint"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@={viewModel.model.name}"
+                    android:textCursorDrawable="@null" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/inputCardTextDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_15"
-            android:text="@string/main_fragment_input_text_desc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inputCardInputTitleContainer" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputCardInputTextContainer"
-            style="@style/settingTextInputLayoutStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:errorMessage="@{viewModel.errorText}"
-            app:layout_constraintStart_toStartOf="@+id/inputCardTextDesc"
-            app:layout_constraintTop_toBottomOf="@+id/inputCardTextDesc"
-            app:layout_constraintWidth_percent="0.5">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputCardInputText"
-                style="@style/settingEditTextStyle"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/inputCardTitleDesc"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/main_input_text_tint"
-                android:maxLength="30"
-                android:maxLines="1"
-                android:nextFocusDown="@id/parentFragmentProfileImage"
-                android:singleLine="true"
-                android:text="@={viewModel.model.text}"
-                android:textCursorDrawable="@null" />
+                android:layout_marginStart="@dimen/margin_15"
+                android:text="@string/inputCardTitleDesc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputCardInputNameContainer" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputCardInputTitleContainer"
+                style="@style/settingTextInputLayoutStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:errorMessage="@{viewModel.errorTitle}"
+                app:layout_constraintStart_toStartOf="@+id/inputCardTitleDesc"
+                app:layout_constraintTop_toBottomOf="@+id/inputCardTitleDesc"
+                app:layout_constraintWidth_percent="0.5">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/parentFragmentProfileImage"
-            setProfileImage="@{viewModel.model.profileImage}"
-            android:layout_width="@dimen/card_profile_image_width"
-            android:layout_height="@dimen/card_profile_image_height"
-            android:layout_marginTop="@dimen/margin_15"
-            android:layout_marginEnd="@dimen/margin_20"
-            android:src="@drawable/default_profile_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputCardInputTitle"
+                    style="@style/settingEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/main_input_title_hint"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@={viewModel.model.title}"
+                    android:textCursorDrawable="@null" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/parentFragmentButtonTest"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_20"
-            android:background="@drawable/gradient_button_bg"
-            android:onClick="@{() -> viewModel.showCardFragment()}"
-            android:stateListAnimator="@drawable/zoom_button_animation"
-            android:text="@string/main_button_test_text"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputCardInputTextContainer"
-            app:layout_constraintWidth_percent="0.4" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/parentFragmentButtonLaunch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/solid_button_bg"
-            android:onClick="@{() -> viewModel.launchCard()}"
-            android:stateListAnimator="@drawable/zoom_button_animation"
-            android:text="@string/Main_button_launch_text"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/parentFragmentButtonTest"
-            app:layout_constraintWidth_percent="0.4" />
+            <TextView
+                android:id="@+id/inputCardTextDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_15"
+                android:text="@string/main_fragment_input_text_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inputCardInputTitleContainer" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputCardInputTextContainer"
+                style="@style/settingTextInputLayoutStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:errorMessage="@{viewModel.errorText}"
+                app:layout_constraintStart_toStartOf="@+id/inputCardTextDesc"
+                app:layout_constraintTop_toBottomOf="@+id/inputCardTextDesc"
+                app:layout_constraintWidth_percent="0.5">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputCardInputText"
+                    style="@style/settingEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/main_input_text_tint"
+                    android:maxLength="30"
+                    android:maxLines="1"
+                    android:nextFocusDown="@id/parentFragmentProfileImage"
+                    android:singleLine="true"
+                    android:text="@={viewModel.model.text}"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/parentFragmentProfileImage"
+                setProfileImage="@{viewModel.model.profileImage}"
+                android:layout_width="@dimen/card_profile_image_width"
+                android:layout_height="@dimen/card_profile_image_height"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginEnd="@dimen/margin_20"
+                android:src="@drawable/default_profile_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/parentFragmentButtonTest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_20"
+                android:background="@drawable/gradient_button_bg"
+                android:onClick="@{() -> viewModel.showCardFragment()}"
+                android:stateListAnimator="@drawable/zoom_button_animation"
+                android:text="@string/main_button_test_text"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputCardInputTextContainer"
+                app:layout_constraintWidth_percent="0.4" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/parentFragmentButtonLaunch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/solid_button_bg"
+                android:onClick="@{() -> viewModel.launchCard()}"
+                android:stateListAnimator="@drawable/zoom_button_animation"
+                android:text="@string/Main_button_launch_text"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/parentFragmentButtonTest"
+                app:layout_constraintWidth_percent="0.4" />
 
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/parentFragmentButtonPrevious"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_20"
-            android:layout_marginBottom="@dimen/margin_40"
-            android:background="@android:color/transparent"
-            android:onClick="@{() -> viewModel.getPreviousBackground()}"
-            android:src="@drawable/left_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/parentFragmentImageSwitcher"
-            app:layout_constraintEnd_toStartOf="@+id/parentFragmentImageSwitcher" />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/parentFragmentButtonPrevious"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_20"
+                android:layout_marginBottom="@dimen/margin_40"
+                android:background="@android:color/transparent"
+                android:onClick="@{() -> viewModel.getPreviousBackground()}"
+                android:src="@drawable/left_arrow"
+                app:layout_constraintBottom_toBottomOf="@+id/parentFragmentImageSwitcher"
+                app:layout_constraintEnd_toStartOf="@+id/parentFragmentImageSwitcher" />
 
 
-        <ImageView
-            android:id="@+id/parentFragmentImageSwitcher"
-            setImageFromAssets="@{viewModel.model.imageName}"
-            android:layout_width="@dimen/card_width"
-            android:layout_height="@dimen/card_height"
-            android:layout_marginTop="@dimen/margin_10"
-            android:importantForAccessibility="no"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parentFragmentButtonLaunch"
-            tools:src="@mipmap/ic_launcher" />
+            <ImageView
+                android:id="@+id/parentFragmentImageSwitcher"
+                setImageFromAssets="@{viewModel.model.imageName}"
+                android:layout_width="@dimen/card_width"
+                android:layout_height="@dimen/card_height"
+                android:layout_marginTop="@dimen/margin_10"
+                android:importantForAccessibility="no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parentFragmentButtonLaunch"
+                tools:src="@mipmap/ic_launcher" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/parentFragmentButtonNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_20"
-            android:layout_marginBottom="@dimen/margin_40"
-            android:background="@android:color/transparent"
-            android:onClick="@{() -> viewModel.getNextBackground()}"
-            android:src="@drawable/right_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/parentFragmentImageSwitcher"
-            app:layout_constraintStart_toEndOf="@+id/parentFragmentImageSwitcher" />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/parentFragmentButtonNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_20"
+                android:layout_marginBottom="@dimen/margin_40"
+                android:background="@android:color/transparent"
+                android:onClick="@{() -> viewModel.getNextBackground()}"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="@+id/parentFragmentImageSwitcher"
+                app:layout_constraintStart_toEndOf="@+id/parentFragmentImageSwitcher" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/parentFragmentCards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_20"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parentFragmentImageSwitcher" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/parentFragmentCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parentFragmentImageSwitcher" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/parentFragmentThemePrevious"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_50"
-            android:background="@android:color/transparent"
-            android:src="@drawable/left_arrow_bold"
-            app:layout_constraintBottom_toBottomOf="@id/parentFragmentCards"
-            app:layout_constraintStart_toStartOf="parent" />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/parentFragmentThemePrevious"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_50"
+                android:background="@android:color/transparent"
+                android:src="@drawable/left_arrow_bold"
+                app:layout_constraintBottom_toBottomOf="@id/parentFragmentCards"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/parentFragmentThemeNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_50"
-            android:background="@android:color/transparent"
-            android:src="@drawable/right_arrow_bold"
-            app:layout_constraintBottom_toBottomOf="@id/parentFragmentCards"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/parentFragmentThemeNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_50"
+                android:background="@android:color/transparent"
+                android:src="@drawable/right_arrow_bold"
+                app:layout_constraintBottom_toBottomOf="@id/parentFragmentCards"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

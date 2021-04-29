@@ -59,7 +59,6 @@ class InputFragment : Fragment() {
                 }
             }
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,7 +80,6 @@ class InputFragment : Fragment() {
         binding.inputCardInputText.setOnKeyListener { currentView, keyCode, _ ->
             handleKeyEvent(currentView, keyCode)
         }
-
         createPresetsView()
         viewModel.checkArgs()
     }
@@ -135,20 +133,19 @@ class InputFragment : Fragment() {
     }
 
     private fun createPresetsView() {
-        viewModel.addDefaultThemes()
-        adapter = PresetsAdapter(viewModel.listOfThemes) {
-            binding.inputCardInputTitle.setText(it.title)
-            binding.inputCardInputText.setText(it.text)
-            viewModel.model.backgroundImage = it.imageId.toString()
-            binding.inputCardContainer.setBackgroundResource(it.imageId)
-        }
-        with(binding) {
-            parentFragmentCards.adapter = adapter
+            viewModel.addDefaultThemes()
+            adapter = PresetsAdapter(viewModel.listOfThemes) {
+                binding.inputCardInputTitle.setText(it.title)
+                binding.inputCardInputText.setText(it.text)
+                viewModel.model.backgroundImage = it.imageId.toString()
+                binding.inputCardContainer.setBackgroundResource(it.imageId)
+            }
+
+            binding.parentFragmentCards.adapter = adapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             val snapHelper: SnapHelper = PagerSnapHelper()
-            parentFragmentCards.layoutManager = layoutManager
-            snapHelper.attachToRecyclerView(parentFragmentCards)
-        }
+            binding.parentFragmentCards.layoutManager = layoutManager
+            snapHelper.attachToRecyclerView(binding.parentFragmentCards)
     }
 
     private fun setPreviousPreset() {
@@ -160,7 +157,6 @@ class InputFragment : Fragment() {
             )
         } catch (e: IllegalArgumentException) {
         }
-
     }
 
     private fun setNextPreset() {
